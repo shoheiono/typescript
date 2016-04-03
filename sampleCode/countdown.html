@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<link rel="stylesheet" type="text/css" href="">
+		<script type="text/javascript" src="../script/js/countdown.js"></script>
+		<title>countdown sample</title>
+	</head>
+	<body>
+		<h1>countdown sample</h1>
+
+		<div>Countdown:<span id="countdown"></span></div>
+
+		<div>Hours:<span id="hours"></span></div>
+		<div>Minutes:<span id="minutes"></span></div>
+		<div>Seconds:<span id="seconds"></span></div>
+		<div>Milliseconds:<span id="milliseconds"></span></div>
+
+		<div>
+			convert to two-digit:
+			<span id="two-digit"></span>
+		</div>
+	</body>
+	<script type="text/javascript">
+	(function() {
+		var currentDate = new Date();
+		var countdonwElem = document.getElementById('countdown');
+		var hoursElem = document.getElementById('hours');
+		var minutesElem = document.getElementById('minutes');
+		var secondsElem = document.getElementById('seconds');
+		var millisecondsElem = document.getElementById('milliseconds');
+		var twoDigitElem = document.getElementById('two-digit');
+		var countDown = new CountDown(
+			{
+				startDate: currentDate,
+				endDate:new Date(currentDate.getTime() + 3604000)
+			},
+			{
+				isAutoStart:true,
+				updateMillisecond:10
+			}
+		);
+
+		countDown.setUpdateCallback(updateCallback);
+		countDown.setEndCallback(endcallback);
+		
+		function updateCallback(value) {
+			var hours = CountDown.getHours(value);
+			var minutes = CountDown.getMinutes(value);
+			var seconds = CountDown.getSeconds(value);
+			var milliseconds = CountDown.getMilliseconds(value);
+
+			countdonwElem.innerText = value;
+			hoursElem.innerText = hours;
+			minutesElem.innerText = minutes;
+			secondsElem.innerText = seconds;
+			millisecondsElem.innerText = milliseconds;
+			twoDigitElem.innerText =
+				CountDown.convertToDoubleString(hours) + ':' + CountDown.convertToDoubleString(minutes) + ':' + CountDown.convertToDoubleString(seconds);
+		}
+		function endcallback() {
+			countdonwElem.innerText = '0';
+			hoursElem.innerText = '0';
+			minutesElem.innerText = '0';
+			secondsElem.innerText = '0';
+			millisecondsElem.innerText = '0';
+			twoDigitElem.innerText = '0';
+		}
+	})();
+	</script>
+</html>
